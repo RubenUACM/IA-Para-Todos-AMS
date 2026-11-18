@@ -1,0 +1,49 @@
+@startuml
+left to right direction
+skinparam monochrome true
+skinparam packageStyle rectangle
+
+package "Product Backlog - Plataforma IA Ética" {
+  rectangle "HU-01: Registro e inicio de sesión (5 pts)" as HU01
+  rectangle "HU-02: Catálogo de módulos temáticos (3 pts)" as HU02
+  rectangle "HU-03: Visor de lecciones y casos normativos (5 pts)" as HU03
+  rectangle "HU-04: Autoevaluación por módulo (8 pts)" as HU04
+  rectangle "HU-05: Calificación y retroalimentación (5 pts)" as HU05
+  rectangle "HU-06: Panel de progreso dinámico (5 pts)" as HU06
+  rectangle "HU-07: Emisión de certificado PDF (5 pts)" as HU07
+  rectangle "HU-08: Panel CRUD de contenidos (8 pts)" as HU08
+}
+
+package "Sprint 1: Acceso y Catálogo" {
+  rectangle "HU-01 | HU-02" as S1_HU
+  rectangle "[TASK-01] Crear tablas usuarios y modulos" as T1
+  rectangle "[TASK-02] Programar login con hash" as T2
+  rectangle "[TASK-03] Maquetar tarjetas de módulos" as T3
+  rectangle "[BUG-01] Validación de correo duplicado" as B1
+}
+
+package "Sprint 2: Lecciones y Evaluación" {
+  rectangle "HU-03 | HU-04 | HU-05" as S2_HU
+  rectangle "[TASK-04] Crear tablas lecciones y preguntas" as T4
+  rectangle "[TASK-05] Desarrollar visor de caso normativo" as T5
+  rectangle "[TASK-06] Lógica de calificación de quiz" as T6
+  rectangle "[BUG-02] Mostrar feedback al reprobar quiz" as B2
+}
+
+package "Sprint 3: Progreso, Certificado y Admin" {
+  rectangle "HU-06 | HU-07 | HU-08" as S3_HU
+  rectangle "[TASK-07] Barras de avance en tiempo real" as T7
+  rectangle "[TASK-08] Generador de folio en certificado" as T8
+  rectangle "[TASK-09] Panel CRUD para administrador" as T9
+  rectangle "[BUG-03] Bloquear certificado sin quiz aprobado" as B3
+}
+
+HU01 --> S1_HU
+HU02 --> S1_HU
+HU03 --> S2_HU
+HU04 --> S2_HU
+HU05 --> S2_HU
+HU06 --> S3_HU
+HU07 --> S3_HU
+HU08 --> S3_HU
+@enduml

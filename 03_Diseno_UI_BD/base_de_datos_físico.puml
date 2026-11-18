@@ -1,0 +1,80 @@
+@startuml
+hide circle
+skinparam linetype ortho
+skinparam monochrome true
+
+entity "usuarios" as u {
+  * **id_usuario** : INT <<PK>>
+  --
+  * nombre : VARCHAR(100)
+  * correo : VARCHAR(100) <<UNIQUE>>
+  * password_hash : VARCHAR(255)
+  * rol : ENUM('Aprendiz', 'Administrador')
+  * ambito : ENUM('Academico', 'Laboral')
+  * fecha_registro : DATETIME
+}
+
+entity "modulos" as m {
+  * **id_modulo** : INT <<PK>>
+  --
+  * titulo : VARCHAR(80)
+  * descripcion : VARCHAR(255)
+  * orden : INT
+}
+
+entity "lecciones" as l {
+  * **id_leccion** : INT <<PK>>
+  --
+  * *id_modulo* : INT <<FK>>
+  * numero_leccion : INT
+  * titulo : VARCHAR(120)
+  * contenido_teorico : TEXT
+  * caso_normativo : TEXT
+}
+
+entity "evaluaciones" as e {
+  * **id_evaluacion** : INT <<PK>>
+  --
+  * *id_modulo* : INT <<FK>> <<UNIQUE>>
+  * puntaje_minimo : DECIMAL(5,2)
+}
+
+entity "preguntas" as p {
+  * **id_pregunta** : INT <<PK>>
+  --
+  * *id_evaluacion* : INT <<FK>>
+  * enunciado_caso : TEXT
+  * opcion_a : VARCHAR(255)
+  * opcion_b : VARCHAR(255)
+  * opcion_c : VARCHAR(255)
+  * respuesta_correcta : CHAR(1)
+  * retroalimentacion : TEXT
+}
+
+entity "progreso_modulo" as pm {
+  * **id_progreso** : INT <<PK>>
+  --
+  * *id_usuario* : INT <<FK>>
+  * *id_modulo* : INT <<FK>>
+  * leccion_actual : INT
+  * porcentaje_avance : DECIMAL(5,2)
+  * calificacion_quiz : DECIMAL(5,2)
+  * estado : ENUM('Bloqueado', 'En_Curso', 'Completado')
+}
+
+entity "certificados" as c {
+  * **id_certificado** : INT <<PK>>
+  --
+  * *id_usuario* : INT <<FK>> <<UNIQUE>>
+  * folio_unico : VARCHAR(50) <<UNIQUE>>
+  * fecha_emision : DATE
+}
+
+' Relaciones físicas (Notación pata de gallo / Crow's foot)
+u ||--o{ pm
+m ||--o{ pm
+m ||--|{ l
+m ||--|| e
+e ||--|{ p
+u ||--o| c
+@enduml

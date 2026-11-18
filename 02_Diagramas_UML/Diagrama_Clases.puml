@@ -1,0 +1,94 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+
+abstract class Usuario {
+  - idUsuario : int
+  - nombre : String
+  - correo : String
+  - passwordHash : String
+  - fechaRegistro : Date
+  + iniciarSesion(correo: String, pass: String) : boolean
+  + cerrarSesion() : void
+}
+
+class Aprendiz {
+  - ambito : String
+  - porcentajeAvanceGlobal : float
+  + consultarModulo(idModulo: int) : Modulo
+  + resolverEvaluacion(idEval: int, respuestas: List) : float
+  + descargarConstancia() : Constancia
+}
+
+class Administrador {
+  - cargo : String
+  + crearModulo(datos: Modulo) : boolean
+  + actualizarLeccion(idLeccion: int, contenido: String) : boolean
+  + gestionarPregunta(idEval: int, pregunta: Pregunta) : void
+}
+
+class Modulo {
+  - idModulo : int
+  - titulo : String
+  - ejeTematico : String
+  - descripcion : String
+  - orden : int
+  + obtenerLecciones() : List<Leccion>
+}
+
+class Leccion {
+  - idLeccion : int
+  - titulo : String
+  - contenidoTeorico : String
+  - casoPracticoNormativo : String
+  - duracionEstimadaMin : int
+  + mostrarContenido() : String
+}
+
+class Evaluacion {
+  - idEvaluacion : int
+  - puntajeMinimoAprobatorio : float
+  - intentosPermitidos : int
+  + calcularCalificacion(respuestas: List) : float
+  + validarAprobacion(puntaje: float) : boolean
+}
+
+class Pregunta {
+  - idPregunta : int
+  - enunciadoCaso : String
+  - opciones : List<String>
+  - respuestaCorrecta : int
+  - retroalimentacionEtica : String
+  + verificarRespuesta(seleccion: int) : boolean
+}
+
+class ProgresoModulo {
+  - idProgreso : int
+  - estado : String
+  - calificacionObtenida : float
+  - fechaCompletado : Date
+  + actualizarEstado(nuevoEstado: String, calif: float) : void
+}
+
+class Constancia {
+  - folioUnico : String
+  - fechaEmision : Date
+  - promedioFinal : float
+  + generarDocumentoPDF() : void
+  + validarFolio(folio: String) : boolean
+}
+
+' Relaciones de Herencia
+Usuario <|-- Aprendiz
+Usuario <|-- Administrador
+
+' Relaciones de Asociación y Composición
+Administrador "1" --> "0..*" Modulo : gestiona >
+Modulo "1" *-- "1..*" Leccion : contiene >
+Modulo "1" *-- "1" Evaluacion : incluye >
+Evaluacion "1" *-- "5..*" Pregunta : compuesta por >
+
+Aprendiz "1" --> "0..*" ProgresoModulo : registra >
+ProgresoModulo "0..*" --> "1" Modulo : evalúa avance en >
+Aprendiz "1" --> "0..1" Constancia : obtiene >
+@enduml

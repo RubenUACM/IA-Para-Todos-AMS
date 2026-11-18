@@ -1,0 +1,59 @@
+@startuml
+skinparam monochrome true
+skinparam linetype ortho
+
+entity "USUARIO" as U {
+  * id_usuario
+  --
+  nombre
+  correo
+  contrasena
+  rol
+  ambito
+}
+
+entity "MODULO" as M {
+  * id_modulo
+  --
+  titulo
+  descripcion
+  orden
+}
+
+entity "LECCION" as L {
+  * id_leccion
+  --
+  titulo
+  contenido_teorico
+  caso_normativo
+  numero_leccion
+}
+
+entity "EVALUACION" as E {
+  * id_evaluacion
+  --
+  puntaje_minimo
+}
+
+entity "PREGUNTA" as P {
+  * id_pregunta
+  --
+  enunciado_caso
+  respuesta_correcta
+  retroalimentacion
+}
+
+entity "CERTIFICADO" as C {
+  * id_certificado
+  --
+  folio_unico
+  fecha_emision
+}
+
+' Relaciones con cardinalidades explícitas
+U "N" -- "M" M : "Cursa / Registra Progreso"
+M "1" -- "N" L : "Contiene"
+M "1" -- "1" E : "Incluye"
+E "1" -- "N" P : "Compuesta por"
+U "1" -- "0..1" C : "Obtiene (1:1)"
+@enduml

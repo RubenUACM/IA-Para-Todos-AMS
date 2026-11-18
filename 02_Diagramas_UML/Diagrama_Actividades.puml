@@ -1,0 +1,38 @@
+@startuml
+skinparam monochrome true
+
+|Aprendiz|
+start
+:Iniciar sesión en la plataforma;
+:Seleccionar módulo (Uso práctico, Ética o Normatividad);
+
+|Sistema Web|
+:Cargar lecciones y casos prácticos del módulo;
+
+|Aprendiz|
+repeat
+  :Estudiar contenido teórico y normativo;
+  :Iniciar autoevaluación del módulo;
+  :Responder casos éticos y preguntas;
+  
+  |Sistema Web|
+  :Procesar respuestas y calcular calificación;
+  :Mostrar retroalimentación formativa por reactivo;
+repeat while (¿Calificación >= 80%?) is (No - Reintentar)
+-> Sí (Aprobado);
+
+|Sistema Web|
+:Registrar módulo como "Completado";
+:Actualizar porcentaje de avance en el Dashboard;
+
+if (¿Completó el 100% de los módulos de la ruta?) then (Sí)
+  :Generar Constancia Digital con folio único;
+  |Aprendiz|
+  :Descargar constancia de cumplimiento;
+else (No)
+  |Aprendiz|
+  :Continuar con el siguiente módulo disponible;
+endif
+
+stop
+@enduml

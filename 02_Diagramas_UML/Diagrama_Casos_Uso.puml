@@ -1,0 +1,37 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam monochrome true
+
+actor "Aprendiz\n(Estudiante / Trabajador)" as Aprendiz
+actor "Administrador de\nContenidos" as Admin
+
+rectangle "Plataforma de Uso correcto de la IA Salazar_AMS" {
+  usecase "CU-01 Registrarse e Iniciar Sesión" as CU01
+  usecase "CU-02 Consultar Catálogo de Módulos" as CU02
+  usecase "CU-03 Estudiar Lección y Casos Normativos" as CU03
+  usecase "CU-04 Realizar Autoevaluación del Módulo" as CU04
+  usecase "CU-05 Recibir Retroalimentación y Calificación" as CU05
+  usecase "CU-06 Consultar Panel de Progreso" as CU06
+  usecase "CU-07 Descargar Constancia de Cumplimiento" as CU07
+  usecase "CU-08 Gestionar Módulos y Lecciones (CRUD)" as CU08
+  usecase "CU-09 Gestionar Banco de Preguntas" as CU09
+}
+
+' Relaciones del Aprendiz
+Aprendiz --> CU01
+Aprendiz --> CU02
+Aprendiz --> CU03
+Aprendiz --> CU04
+Aprendiz --> CU06
+
+' Relaciones Include y Extend
+CU03 .> CU02 : <<include>>
+CU04 .> CU05 : <<include>>
+CU07 .> CU06 : <<extend>>\n[Avance = 100% y Aprobado]
+
+' Relaciones del Administrador
+Admin --> CU01
+Admin --> CU08
+Admin --> CU09
+@enduml
